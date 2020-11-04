@@ -34,11 +34,6 @@ public class Lightning : MonoBehaviour
         StartCoroutine("LightningStrike");
     }
 
-    void Update()
-    {
-        
-    }
-
     IEnumerator LightningStrike()
     {
         while (true)
@@ -55,7 +50,7 @@ public class Lightning : MonoBehaviour
             Debug.LogWarning(tag + "doesn't exist.");
             return;
         }
-            GameObject poolie = poolDictionary[tag].Dequeue();
+        GameObject poolie = poolDictionary[tag].Dequeue();
 
         poolie.transform.position = position;
         poolie.transform.rotation = rotation;

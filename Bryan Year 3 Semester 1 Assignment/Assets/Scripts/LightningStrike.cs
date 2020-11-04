@@ -11,6 +11,7 @@ public class LightningStrike : MonoBehaviour
     {
         this.transform.rotation = Quaternion.Euler(Random.Range(-30,30),0, Random.Range(-30, 30));
         Physics.Raycast(this.transform.position,-this.transform.up, out _hit, Mathf.Infinity);
+        GetComponent<ParticleSystem>().Play();
         //Instantiate(obj,_hit.point, this.transform.rotation);
     }
 }
