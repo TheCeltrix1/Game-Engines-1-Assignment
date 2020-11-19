@@ -37,8 +37,9 @@ public class Lightning : MonoBehaviour
     {
         while (true)
         {
-            Zap(0/*Random.Range(0, pools.Capacity)*/, new Vector3(Random.Range(-150, 150), 5, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0));
-            LightningStrike(1, new Vector3(0, 5, 200), Quaternion.Euler(0, 0, 0));
+            //Register sound to spawn thunder and lightning (reversed cause I named things wrong)
+            Zap(0, new Vector3(Random.Range(-150, 150), 5, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0));
+            LightningStrike(1, new Vector3(0, 40, 200), Quaternion.Euler(0, 0, 0));
             yield return new WaitForSeconds(0.5f);
         }
     }
@@ -72,7 +73,12 @@ public class Lightning : MonoBehaviour
         poolie.transform.position = position;
         poolie.transform.rotation = rotation;
         poolie.SetActive(true);
-        poolie.GetComponent<LightningBolt>().GeneratePoints();
+
+        LightningBolt bolt = poolie.GetComponent<LightningBolt>();
+        bolt.maxPointDistance = Random.Range(15,40);
+        bolt.startHeight = position.y;
+        bolt.endHeight = position.y -200;
+        bolt.GeneratePoints();
 
         poolDictionary[tag].Enqueue(poolie);
     }

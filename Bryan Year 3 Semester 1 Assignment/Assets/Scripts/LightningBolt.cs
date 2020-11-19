@@ -6,7 +6,7 @@ public class LightningBolt : MonoBehaviour
 {
     private List<Vector3> _locations = new List<Vector3>();
     private float _timer = 0;
-    private float _despawnTimer = 0.5f;
+    private float _despawnTimer = 0.01f;
     private bool _despawn;
     private int _var = 0;
 
@@ -14,7 +14,7 @@ public class LightningBolt : MonoBehaviour
     public float endHeight;
     private float _currentHeight;
     private Vector2 _pointPos; // X and Z pos of current point
-    private float _maxPointDistance = 50;
+    public float maxPointDistance = 50;
 
     private float _minHeightDifference = 5;
     private float _maxHeightDifference = 15;
@@ -31,10 +31,9 @@ public class LightningBolt : MonoBehaviour
         while(_currentHeight > endHeight)
         {
             _currentHeight -= Random.Range(_minHeightDifference,_maxHeightDifference);
-            _locations.Add(new Vector3(_pointPos.x + Random.Range(-_maxPointDistance,_maxPointDistance), _currentHeight, _pointPos.y + Random.Range(-_maxPointDistance, _maxPointDistance)));
+            _locations.Add(new Vector3(_pointPos.x + Random.Range(-maxPointDistance,maxPointDistance), _currentHeight, _pointPos.y + Random.Range(-maxPointDistance, maxPointDistance)));
         }
         _despawn = true;
-        Strike();
     }
 
     private void Strike()
@@ -51,11 +50,14 @@ public class LightningBolt : MonoBehaviour
         _timer += Time.deltaTime;
         if (_despawn == true && _timer >= _despawnTimer)
         {
+            if (_var >= _locations.Count - 1)
+            {
+                //this.transform.GetComponent<ParticleSystem>().Pause();
+                gameObject.SetActive(false);
+            }
             _timer = 0;
-            _var++;
-            Debug.Log(_var);
             this.transform.position = _locations[_var];
-            //gameObject.SetActive(false);
+            _var++;
         }
     }
 }
