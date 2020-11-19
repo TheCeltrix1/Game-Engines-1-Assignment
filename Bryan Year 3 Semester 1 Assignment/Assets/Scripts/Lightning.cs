@@ -14,6 +14,12 @@ public class Lightning : MonoBehaviour
 
     public List<Pool> pools;
     public Dictionary<int, Queue<GameObject>> poolDictionary;
+    public AudioSource AudioSourceObject;
+
+    private void Update()
+    {
+        AudioData();
+    }
 
     void Start()
     {
@@ -33,13 +39,15 @@ public class Lightning : MonoBehaviour
         StartCoroutine("LightningStrike");
     }
 
+    #region Visuals
+
     IEnumerator LightningStrike()
     {
         while (true)
         {
-            //Register sound to spawn thunder and lightning (reversed cause I named things wrong)
+            //Register sound to spawn thunder and lightning (reversed cause I named things wrong). Lightning strike for impactful notes and Zap for beats and repetitive notes.
             Zap(0, new Vector3(Random.Range(-150, 150), 5, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0));
-            LightningStrike(1, new Vector3(0, 40, 200), Quaternion.Euler(0, 0, 0));
+            LightningStrike(1, new Vector3(Random.Range(-150, 150), 40, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0));
             yield return new WaitForSeconds(0.5f);
         }
     }
@@ -82,9 +90,23 @@ public class Lightning : MonoBehaviour
 
         poolDictionary[tag].Enqueue(poolie);
     }
+    #endregion
 
-    private void ObjectPool()
+    #region AudioData
+    public void AudioData()
     {
+        float[] spectrum = new float[64];
 
+        AudioListener.GetSpectrumData(spectrum, 0, FFTWindow.Rectangular);
+
+        for (int i = 1; i < spectrum.Length - 1; i++)
+        {
+            Debug.DrawLine(new Vector3(i - 1, spectrum[i] + 10, 0), new Vector3(i, spectrum[i + 1] + 10, 0), Color.red);
+            Debug.DrawLine(new Vector3(i - 1, Mathf.Log(spectrum[i - 1]) + 10, 2), new Vector3(i, Mathf.Log(spectrum[i]) + 10, 2), Color.cyan);
+            Debug.DrawLine(new Vector3(Mathf.Log(i - 1), spectrum[i - 1] - 10, 1), new Vector3(Mathf.Log(i), spectrum[i] - 10, 1), Color.green);
+            Debug.DrawLine(new Vector3(Mathf.Log(i - 1), Mathf.Log(spectrum[i - 1]), 3), new Vector3(Mathf.Log(i), Mathf.Log(spectrum[i]), 3), Color.blue);
+        }
     }
+
+    #endregion
 }
