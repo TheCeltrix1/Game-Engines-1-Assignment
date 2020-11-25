@@ -97,16 +97,25 @@ public class Lightning : MonoBehaviour
     {
         float[] spectrum = new float[64];
 
+        //sub base 20 - 50 hz
+        //bass 60 - 250 hz
+        //low midrange 250 - 500 hz
+        //midrange 500 - 2000 hz
+        //upper midrange 2000 - 4000 hz
+        //presence 4000 - 6000 hz
+        //brilliance 6000 - 20000 hz
+
         AudioListener.GetSpectrumData(spectrum, 0, FFTWindow.Rectangular);
 
         for (int i = 1; i < spectrum.Length - 1; i++)
         {
-            Debug.DrawLine(new Vector3(i - 1, spectrum[i] + 10, 0), new Vector3(i, spectrum[i + 1] + 10, 0), Color.red);
+            //Debug.DrawLine(new Vector3(i - 1, spectrum[i] + 10, 0), new Vector3(i, spectrum[i + 1] + 10, 0), Color.red);
             Debug.DrawLine(new Vector3(i - 1, Mathf.Log(spectrum[i - 1]) + 10, 2), new Vector3(i, Mathf.Log(spectrum[i]) + 10, 2), Color.cyan);
             Debug.DrawLine(new Vector3(Mathf.Log(i - 1), spectrum[i - 1] - 10, 1), new Vector3(Mathf.Log(i), spectrum[i] - 10, 1), Color.green);
             Debug.DrawLine(new Vector3(Mathf.Log(i - 1), Mathf.Log(spectrum[i - 1]), 3), new Vector3(Mathf.Log(i), Mathf.Log(spectrum[i]), 3), Color.blue);
+
+            Debug.DrawLine(new Vector3(i - 1, 0, 0),new Vector3(i, Mathf.Abs(Mathf.Log(spectrum[i])), 0), Color.magenta);
         }
     }
-
     #endregion
 }
