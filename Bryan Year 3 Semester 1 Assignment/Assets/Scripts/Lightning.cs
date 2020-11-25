@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent (typeof(AudioSource))]
 public class Lightning : MonoBehaviour
 {
     [System.Serializable]
@@ -15,6 +16,10 @@ public class Lightning : MonoBehaviour
     public List<Pool> pools;
     public Dictionary<int, Queue<GameObject>> poolDictionary;
     public AudioSource AudioSourceObject;
+
+    //audio variables
+    private float[] _spectrum = new float[512];
+    private float[] _frequencyBands = new float[8];
 
     private void Update()
     {
@@ -95,26 +100,28 @@ public class Lightning : MonoBehaviour
     #region AudioData
     public void AudioData()
     {
-        float[] spectrum = new float[64];
+        AudioListener.GetSpectrumData(_spectrum, 0, FFTWindow.Blackman);
+        int currentSample = 0;
 
-        //sub base 20 - 50 hz
-        //bass 60 - 250 hz
-        //low midrange 250 - 500 hz
-        //midrange 500 - 2000 hz
-        //upper midrange 2000 - 4000 hz
-        //presence 4000 - 6000 hz
-        //brilliance 6000 - 20000 hz
-
-        AudioListener.GetSpectrumData(spectrum, 0, FFTWindow.Rectangular);
-
-        for (int i = 1; i < spectrum.Length - 1; i++)
+        for(int i = 0; i < _frequencyBands.Length; i ++)
         {
-            //Debug.DrawLine(new Vector3(i - 1, spectrum[i] + 10, 0), new Vector3(i, spectrum[i + 1] + 10, 0), Color.red);
-            Debug.DrawLine(new Vector3(i - 1, Mathf.Log(spectrum[i - 1]) + 10, 2), new Vector3(i, Mathf.Log(spectrum[i]) + 10, 2), Color.cyan);
-            Debug.DrawLine(new Vector3(Mathf.Log(i - 1), spectrum[i - 1] - 10, 1), new Vector3(Mathf.Log(i), spectrum[i] - 10, 1), Color.green);
-            Debug.DrawLine(new Vector3(Mathf.Log(i - 1), Mathf.Log(spectrum[i - 1]), 3), new Vector3(Mathf.Log(i), Mathf.Log(spectrum[i]), 3), Color.blue);
+            float averageFreq = 0;
+            int sampleCount = (int)Mathf.Pow(2,i) * 2;
 
-            Debug.DrawLine(new Vector3(i - 1, 0, 0),new Vector3(i, Mathf.Abs(Mathf.Log(spectrum[i])), 0), Color.magenta);
+            for (int j = 0; j < sampleCount; j++)
+            {
+                averageFreq += _spectrum[currentSample] * (sampleCount + 1);
+                currentSample++;
+            }
+
+            averageFreq /= currentSample;
+            _frequencyBands[i] = averageFreq * 10;
+        }
+
+
+        for (int i = 1; i < _frequencyBands.Length - 1; i++)
+        {
+            Debug.DrawLine(new Vector3(i, 0, 0),new Vector3(i, _frequencyBands[i] * 100, 0), Color.magenta);
         }
     }
     #endregion
