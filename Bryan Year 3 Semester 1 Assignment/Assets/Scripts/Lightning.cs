@@ -118,9 +118,9 @@ public class Lightning : MonoBehaviour
             _frequencyBands[i] = averageFreq * 10;
         }
 
-
         for (int i = 1; i < _frequencyBands.Length - 1; i++)
         {
+            // 8 bands, each spawns a lightning bolt over a certain threshold.
             Debug.DrawLine(new Vector3(i, 0, 0),new Vector3(i, _frequencyBands[i] * 100, 0), Color.magenta);
         }
     }
