@@ -16,6 +16,12 @@ public class Lightning : MonoBehaviour
     public List<Pool> pools;
     public Dictionary<int, Queue<GameObject>> poolDictionary;
     public AudioSource AudioSourceObject;
+    public float audioThreshold = 10;
+    public float audioThresholdThunder = 0.035f;
+
+    private Gradient _gradient;
+    private GradientColorKey[] _colorKey;
+    private GradientAlphaKey[] _alphaKey;
 
     //audio variables
     private float[] _spectrum = new float[512];
@@ -51,13 +57,13 @@ public class Lightning : MonoBehaviour
         while (true)
         {
             //Register sound to spawn thunder and lightning (reversed cause I named things wrong). Lightning strike for impactful notes and Zap for beats and repetitive notes.
-            Zap(0, new Vector3(Random.Range(-150, 150), 5, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0));
-            LightningStrike(1, new Vector3(Random.Range(-150, 150), 40, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0));
+            //Zap(0, new Vector3(Random.Range(-150, 150), 5, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0));
+            //LightningStrike(1, new Vector3(Random.Range(-150, 150), 40, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0));
             yield return new WaitForSeconds(0.5f);
         }
     }
 
-    private void Zap(int tag, Vector3 position, Quaternion rotation)
+    private void Zap(int tag, Vector3 position, Quaternion rotation, float frequency)
     {
         if (!poolDictionary.ContainsKey(tag))
         {
@@ -69,12 +75,17 @@ public class Lightning : MonoBehaviour
         poolie.transform.position = position;
         poolie.transform.rotation = rotation;
         poolie.SetActive(true);
+
+        Material thunderTexture = poolie.GetComponent<Renderer>().material;
+        thunderTexture.SetColor("Color_A52EA298", Color.HSVToRGB(frequency / 10f,1,1));
+        Debug.Log(thunderTexture.GetColor("Color_A52EA298"));
+
         poolie.GetComponent<LightningStrike>().Strike();
 
         poolDictionary[tag].Enqueue(poolie);
     }
 
-    private void LightningStrike(int tag, Vector3 position, Quaternion rotation)
+    private void LightningStrike(int tag, Vector3 position, Quaternion rotation, float frequency)
     {
         if (!poolDictionary.ContainsKey(tag))
         {
@@ -82,9 +93,30 @@ public class Lightning : MonoBehaviour
             return;
         }
         GameObject poolie = poolDictionary[tag].Dequeue();
+        frequency /= 10f;
+        //frequency needs to be a value between 0 and 1.
 
         poolie.transform.position = position;
         poolie.transform.rotation = rotation;
+
+        //gradient schenanigans
+        _gradient = new Gradient();
+
+        _colorKey = new GradientColorKey[2];
+        _colorKey[0].color = Color.HSVToRGB(frequency, 1, 1);
+        _colorKey[0].time = 0.0f;
+        _colorKey[1].color = Color.HSVToRGB(frequency, 1, 1);
+        _colorKey[1].time = 1.0f;
+
+        _alphaKey = new GradientAlphaKey[2];
+        _alphaKey[0].alpha = 1.0f;
+        _alphaKey[0].time = 0.0f;
+        _alphaKey[1].alpha = 0.0f;
+        _alphaKey[1].time = 1.0f;
+
+        _gradient.SetKeys(_colorKey, _alphaKey);
+
+        poolie.GetComponent<TrailRenderer>().colorGradient = _gradient;
         poolie.SetActive(true);
 
         LightningBolt bolt = poolie.GetComponent<LightningBolt>();
@@ -117,11 +149,12 @@ public class Lightning : MonoBehaviour
             averageFreq /= currentSample;
             _frequencyBands[i] = averageFreq * 10;
         }
-
         for (int i = 1; i < _frequencyBands.Length - 1; i++)
         {
             // 8 bands, each spawns a lightning bolt over a certain threshold.
-            Debug.DrawLine(new Vector3(i, 0, 0),new Vector3(i, _frequencyBands[i] * 100, 0), Color.magenta);
+            if (_frequencyBands[i] >= audioThreshold) LightningStrike(1, new Vector3(Random.Range(-150, 150), 40, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0), i);
+            else if (_frequencyBands[i] >= audioThresholdThunder) Zap(0, new Vector3(Random.Range(-150, 150), 5, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0), i);
+            //Debug.DrawLine(new Vector3(i, 0, 0), new Vector3(i, _frequencyBands[i] * 100, 0), Color.magenta);
         }
     }
     #endregion
