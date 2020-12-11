@@ -47,7 +47,7 @@ public class Lightning : MonoBehaviour
             }
             poolDictionary.Add(pool.tag, objectPool);
         }
-        StartCoroutine("LightningStrike");
+        //StartCoroutine("LightningStrike");
     }
 
     #region Visuals
