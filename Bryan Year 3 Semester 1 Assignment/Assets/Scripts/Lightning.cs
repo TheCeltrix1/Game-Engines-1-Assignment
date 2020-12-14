@@ -157,7 +157,6 @@ public class Lightning : MonoBehaviour
             // 8 bands, each spawns a lightning bolt over a certain threshold.
             if (_frequencyBands[i] >= audioThreshold) LightningStrike(1, new Vector3(Random.Range(-150, 150), 40, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0), i);
             else if (_frequencyBands[i] >= audioThresholdThunder) Zap(0, new Vector3(Random.Range(-150, 150), 5, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0), i);
-            //Debug.DrawLine(new Vector3(i, 0, 0), new Vector3(i, _frequencyBands[i] * 100, 0), Color.magenta);
         }
     }
     #endregion
