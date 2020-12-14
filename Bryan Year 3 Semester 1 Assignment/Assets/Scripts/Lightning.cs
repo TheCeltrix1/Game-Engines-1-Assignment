@@ -19,6 +19,7 @@ public class Lightning : MonoBehaviour
     public AudioSource AudioSourceObject;
     public float audioThreshold = 10;
     public float audioThresholdThunder = 0.035f;
+    public float lightningLength = 400;
 
     private Gradient _gradient;
     private GradientColorKey[] _colorKey;
@@ -79,8 +80,6 @@ public class Lightning : MonoBehaviour
         poolie.transform.rotation = rotation;
         poolie.SetActive(true);
 
-       // Debug.Log(frequency + " " + Color.HSVToRGB(frequency / 10f, 1, 1));
-
         Material thunderTexture = poolie.GetComponent<Renderer>().material;
         thunderTexture.SetColor("Color_A52EA298", _colourStorage[frequency]);
         Debug.Log(thunderTexture.GetColor("Color_A52EA298"));
@@ -121,12 +120,13 @@ public class Lightning : MonoBehaviour
         _gradient.SetKeys(_colorKey, _alphaKey);
 
         poolie.GetComponent<TrailRenderer>().colorGradient = _gradient;
+        poolie.GetComponent<TrailRenderer>().Clear();
         poolie.SetActive(true);
 
         LightningBolt bolt = poolie.GetComponent<LightningBolt>();
         bolt.maxPointDistance = Random.Range(15,40);
         bolt.startHeight = position.y;
-        bolt.endHeight = position.y -200;
+        bolt.endHeight = position.y - lightningLength;
         bolt.GeneratePoints();
 
         poolDictionary[tag].Enqueue(poolie);
