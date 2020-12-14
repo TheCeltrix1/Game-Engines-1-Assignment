@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 [RequireComponent (typeof(AudioSource))]
 public class Lightning : MonoBehaviour
@@ -22,6 +23,7 @@ public class Lightning : MonoBehaviour
     private Gradient _gradient;
     private GradientColorKey[] _colorKey;
     private GradientAlphaKey[] _alphaKey;
+    private Color[] _colourStorage = new Color[8];
 
     //audio variables
     private float[] _spectrum = new float[512];
@@ -32,9 +34,10 @@ public class Lightning : MonoBehaviour
         AudioData();
     }
 
-    void Start()
+    void OnEnable()
     {
         poolDictionary = new Dictionary<int, Queue<GameObject>>();
+        GenerateColour(8);
 
         foreach (Pool pool in pools)
         {
@@ -63,7 +66,7 @@ public class Lightning : MonoBehaviour
         }
     }
 
-    private void Zap(int tag, Vector3 position, Quaternion rotation, float frequency)
+    private void Zap(int tag, Vector3 position, Quaternion rotation, int frequency)
     {
         if (!poolDictionary.ContainsKey(tag))
         {
@@ -76,8 +79,10 @@ public class Lightning : MonoBehaviour
         poolie.transform.rotation = rotation;
         poolie.SetActive(true);
 
+       // Debug.Log(frequency + " " + Color.HSVToRGB(frequency / 10f, 1, 1));
+
         Material thunderTexture = poolie.GetComponent<Renderer>().material;
-        thunderTexture.SetColor("Color_A52EA298", Color.HSVToRGB(frequency / 10f,1,1));
+        thunderTexture.SetColor("Color_A52EA298", _colourStorage[frequency]);
         Debug.Log(thunderTexture.GetColor("Color_A52EA298"));
 
         poolie.GetComponent<LightningStrike>().Strike();
@@ -85,7 +90,7 @@ public class Lightning : MonoBehaviour
         poolDictionary[tag].Enqueue(poolie);
     }
 
-    private void LightningStrike(int tag, Vector3 position, Quaternion rotation, float frequency)
+    private void LightningStrike(int tag, Vector3 position, Quaternion rotation, int frequency)
     {
         if (!poolDictionary.ContainsKey(tag))
         {
@@ -93,7 +98,6 @@ public class Lightning : MonoBehaviour
             return;
         }
         GameObject poolie = poolDictionary[tag].Dequeue();
-        frequency /= 10f;
         //frequency needs to be a value between 0 and 1.
 
         poolie.transform.position = position;
@@ -103,9 +107,9 @@ public class Lightning : MonoBehaviour
         _gradient = new Gradient();
 
         _colorKey = new GradientColorKey[2];
-        _colorKey[0].color = Color.HSVToRGB(frequency, 1, 1);
+        _colorKey[0].color = _colourStorage[frequency];
         _colorKey[0].time = 0.0f;
-        _colorKey[1].color = Color.HSVToRGB(frequency, 1, 1);
+        _colorKey[1].color = _colourStorage[frequency];
         _colorKey[1].time = 1.0f;
 
         _alphaKey = new GradientAlphaKey[2];
@@ -127,6 +131,16 @@ public class Lightning : MonoBehaviour
 
         poolDictionary[tag].Enqueue(poolie);
     }
+
+    private void GenerateColour(float bands)
+    {
+        float fraction = 1f / bands;
+        for (int i = 0; i < bands; i++)
+        {
+            _colourStorage[i] = Color.HSVToRGB(fraction * i, 1, 1);
+        }
+    }
+
     #endregion
 
     #region AudioData
@@ -149,7 +163,7 @@ public class Lightning : MonoBehaviour
             averageFreq /= currentSample;
             _frequencyBands[i] = averageFreq * 10;
         }
-        for (int i = 1; i < _frequencyBands.Length - 1; i++)
+        for (int i = 0; i < _frequencyBands.Length; i++)
         {
             // 8 bands, each spawns a lightning bolt over a certain threshold.
             if (_frequencyBands[i] >= audioThreshold) LightningStrike(1, new Vector3(Random.Range(-150, 150), 40, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0), i);
