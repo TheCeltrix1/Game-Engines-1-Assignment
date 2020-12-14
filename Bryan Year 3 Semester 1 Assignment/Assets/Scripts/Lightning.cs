@@ -56,17 +56,6 @@ public class Lightning : MonoBehaviour
 
     #region Visuals
 
-    IEnumerator LightningStrike()
-    {
-        while (true)
-        {
-            //Register sound to spawn thunder and lightning (reversed cause I named things wrong). Lightning strike for impactful notes and Zap for beats and repetitive notes.
-            //Zap(0, new Vector3(Random.Range(-150, 150), 5, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0));
-            //LightningStrike(1, new Vector3(Random.Range(-150, 150), 40, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0));
-            yield return new WaitForSeconds(0.5f);
-        }
-    }
-
     private void Zap(int tag, Vector3 position, Quaternion rotation, int frequency)
     {
         if (!poolDictionary.ContainsKey(tag))
