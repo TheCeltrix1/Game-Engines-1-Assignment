@@ -16,8 +16,8 @@ public class LightningBolt : MonoBehaviour
     private Vector2 _pointPos; // X and Z pos of current point
     public float maxPointDistance = 50;
 
-    private float _minHeightDifference = 5;
-    private float _maxHeightDifference = 15;
+    private float _minHeightDifference = 15;
+    private float _maxHeightDifference = 35;
 
     public void GeneratePoints()
     {
@@ -50,11 +50,7 @@ public class LightningBolt : MonoBehaviour
         _timer += Time.deltaTime;
         if (_despawn == true && _timer >= _despawnTimer)
         {
-            if (_var >= _locations.Count - 1)
-            {
-                //this.transform.GetComponent<ParticleSystem>().Pause();
-                gameObject.SetActive(false);
-            }
+            if (_var >= _locations.Count - 1) gameObject.SetActive(false);
             _timer = 0;
             this.transform.position = _locations[_var];
             _var++;
