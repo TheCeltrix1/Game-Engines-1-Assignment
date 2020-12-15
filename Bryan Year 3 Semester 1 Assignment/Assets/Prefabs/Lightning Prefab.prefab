@@ -141,3 +141,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startHeight: 100
   endHeight: -160
+  maxPointDistance: 50
