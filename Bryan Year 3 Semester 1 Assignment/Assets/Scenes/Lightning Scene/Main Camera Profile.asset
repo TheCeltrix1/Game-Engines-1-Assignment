@@ -15,6 +15,7 @@ MonoBehaviour:
   components:
   - {fileID: 114069279569115142}
   - {fileID: 114551565409125050}
+  - {fileID: 114601055405179680}
 --- !u!114 &114069279569115142
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -61,24 +62,24 @@ MonoBehaviour:
     min: 0
   albedo:
     m_OverrideState: 1
-    m_Value: {r: 0, g: 0, b: 0, a: 1}
+    m_Value: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
     hdr: 0
     showAlpha: 1
     showEyeDropper: 1
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 50
+    m_Value: 1000
     min: 1
   baseHeight:
     m_OverrideState: 1
-    m_Value: 50
+    m_Value: 0
   meanHeight:
     m_OverrideState: 1
-    m_Value: 50
+    m_Value: 5
     min: 1
   anisotropy:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.01
     min: -1
     max: 1
   globalLightProbeDimmer:
@@ -104,7 +105,7 @@ MonoBehaviour:
   active: 1
   depthExtent:
     m_OverrideState: 1
-    m_Value: 64
+    m_Value: 512
     min: 0.1
   sliceDistributionUniformity:
     m_OverrideState: 1
@@ -125,8 +126,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   skyType:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 1
   fogType:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 3
