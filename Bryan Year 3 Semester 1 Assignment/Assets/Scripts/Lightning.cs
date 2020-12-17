@@ -26,6 +26,12 @@ public class Lightning : MonoBehaviour
     private GradientAlphaKey[] _alphaKey;
     private Color[] _colourStorage = new Color[8];
 
+    [Header("SpawnLimits")]
+    public float minX;
+    public float maxX;
+    public float minY;
+    public float maxY;
+
     //audio variables
     private float[] _spectrum = new float[512];
     private float[] _frequencyBands = new float[8];
@@ -155,8 +161,8 @@ public class Lightning : MonoBehaviour
         for (int i = 0; i < _frequencyBands.Length; i++)
         {
             // 8 bands, each spawns a lightning bolt over a certain threshold.
-            if (_frequencyBands[i] >= audioThreshold) LightningStrike(1, new Vector3(Random.Range(-150, 150), 40, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0), i);
-            else if (_frequencyBands[i] >= audioThresholdThunder) Zap(0, new Vector3(Random.Range(-150, 150), 5, Random.Range(100, 300)), Quaternion.Euler(0, 0, 0), i);
+            if (_frequencyBands[i] >= audioThreshold) LightningStrike(1, new Vector3(Random.Range(minX, maxX), 40, Random.Range(minY, maxY)), Quaternion.Euler(0, 0, 0), i);
+            else if (_frequencyBands[i] >= audioThresholdThunder) Zap(0, new Vector3(Random.Range(minX, maxX), 5, Random.Range(minY, maxY)), Quaternion.Euler(0, 0, 0), i);
         }
     }
     #endregion
