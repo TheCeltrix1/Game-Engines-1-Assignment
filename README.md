@@ -29,6 +29,8 @@ Brackeys Object Pooling
 
 [![YouTube]](https://www.youtube.com/watch?v=tdSmKaJvCoA)
 
+Lightning Shader
+[![YouTube]](https://www.youtube.com/watch?v=u9lOaPVtSqg&list=PLwldfBru-H_X4J2hKR6aSVEo-L3Ip33yY&index=129)
 
 My biggest issue with this assignment was deciding on an idea to use. I'm torn between my last two ideas and want to pursue both for this assignment. The first is a thunderstorm that reacts to music. The lightning eminating on note beats and the colour of which is based on the pitch of the noise with the generation being random. The second idea is a procedurally generated solar system using newtonian physics to orbit a star.
 
