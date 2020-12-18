@@ -1,10 +1,32 @@
-# Game-Engines-1-Assignment
+# Storm Spire
 
-#Name: Cathal O'Rourke
+### Name: Cathal O'Rourke
 
-#Number: C18408916
+### Number: C18408916
 
-#Course: DT508/984
+### Course: DT508/984
+
+## Project Description
+
+Storm Spire is a Unity created program for visualising music through lightning bolts.
+Each bolt is generated with a random pattern upon the music bands hitting a certain decabel levels and who's colour is determined via the music band.
+Lightning generated in the cloud is generated when lightning strikes are not viable and whose colour is generated the same way.
+
+## How to Use
+1. Turn on Computer
+1. Boot up Unity
+1. Make sure sound is turned on
+1. Hit play
+
+## How it works
+The sky is generated using a custom, moving shader on a Quad gameobject
+The fog is generated using HDRP lighting and post processing alongside the bloom effect on the lightning bolts
+The lightning is generated with object pooling and an audio processing function that determines the amplitude of the audio and generates the bolts from that.
+Everything is variable based, allowing for customisation.
+
+## References
+Brackeys Object Pooling
+[![YouTube](https://www.youtube.com/watch?v=tdSmKaJvCoA)
 
 My biggest issue with this assignment was deciding on an idea to use. I'm torn between my last two ideas and want to pursue both for this assignment. The first is a thunderstorm that reacts to music. The lightning eminating on note beats and the colour of which is based on the pitch of the noise with the generation being random. The second idea is a procedurally generated solar system using newtonian physics to orbit a star.
 
