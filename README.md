@@ -28,17 +28,21 @@ Everything is variable based, allowing for customisation.
 
 ## References
 Brackeys Object Pooling
-
+Used in the generation of my prefabs at runtime and recycling them to conserve processing power.
 [![Object Pooling]](https://www.youtube.com/watch?v=tdSmKaJvCoA)
 
 Electricity Shader
-
+Used as a basis for my electricity shader as the one in the tutorial did not react well to changing colour, specifically anything with a 0 R value in RGB colourspace.
 [![Electricity Shader]](https://www.youtube.com/watch?v=u9lOaPVtSqg&list=PLwldfBru-H_X4J2hKR6aSVEo-L3Ip33yY&index=129)
 
 ## What I am most proud of
 
 For me, I am most proud of the cloud shader as I made it completely by myself and I think it came out really well and was my first real experience using shader graphs.
 I hope to continue to use them in the future too
+
+## YouTube Link
+
+[![Storm Spire Link]]()
 
 # Previous Proposal
 
