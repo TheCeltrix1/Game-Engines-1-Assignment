@@ -1,15 +1,15 @@
 # Storm Spire
 
-### Name: Cathal O'Rourke
+#### Name: Cathal O'Rourke
 
-### Number: C18408916
+#### Number: C18408916
 
-### Course: DT508/TU984
+#### Course: DT508/TU984
 
 ## Project Description
 
 Storm Spire is a Unity created program for visualising music through lightning bolts.
-Each bolt is generated with a random pattern upon the music bands hitting a certain decabel levels and who's colour is determined via the music band.
+Each bolt is generated with a random pattern upon the music bands hitting a certain amplitude levels and who's colour is determined via the music band.
 Lightning generated in the cloud is generated when lightning strikes are not viable and whose colour is generated the same way.
 
 ## How to Use
@@ -19,9 +19,11 @@ Lightning generated in the cloud is generated when lightning strikes are not via
 1. Hit play
 
 ## How it works
-The sky is generated using a custom, moving shader on a Quad gameobject
-The fog is generated using HDRP lighting and post processing alongside the bloom effect on the lightning bolts
+The sky is generated using a custom moving cloud shader on a Quad gameobject.
+The fog is generated using HDRP lighting and post processing alongside the bloom effect on the lightning bolts.
 The lightning is generated with object pooling and an audio processing function that determines the amplitude of the audio and generates the bolts from that.
+The particle effects are achieved with two methods, a particle system using a spherical mesh and an electricity shader, colour changes based on bad. 
+The other is achieved with a trail renderer on a gameobject that is moved through the scene very fast to generate the bolt shape.
 Everything is variable based, allowing for customisation.
 
 ## References
@@ -35,7 +37,8 @@ Electricity Shader
 
 ## What I am most proud of
 
-For me, I am most proud of the cloud shader as I made it completely by myself and I think it came out really well.
+For me, I am most proud of the cloud shader as I made it completely by myself and I think it came out really well and was my first real experience using shader graphs.
+I hope to continue to use them in the future too
 
 # Previous Proposal
 
