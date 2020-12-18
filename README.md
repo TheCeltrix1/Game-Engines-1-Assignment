@@ -4,7 +4,7 @@
 
 ### Number: C18408916
 
-### Course: DT508/984
+### Course: DT508/TU984
 
 ## Project Description
 
