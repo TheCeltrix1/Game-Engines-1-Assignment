@@ -43,6 +43,7 @@ public class Lightning : MonoBehaviour
 
     void OnEnable()
     {
+        Cursor.visible = false;
         poolDictionary = new Dictionary<int, Queue<GameObject>>();
         GenerateColour(8);
 
