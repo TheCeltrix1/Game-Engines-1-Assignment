@@ -44,7 +44,7 @@ I hope to continue to use them in the future too
 
 ## YouTube Link
 
-[Storm Spire Link]()
+[Storm Spire Link](https://youtu.be/VCG_34RshjI)
 
 # Previous Proposal
 
